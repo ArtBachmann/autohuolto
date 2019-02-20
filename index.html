@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!--Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="css/main.css" />
+
+  <!--Website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autohuolto</title>
+</head>
+
+<body id="home" class="scrollspy">
+  <header class="main-header">
+    <div class="primary-overlay">
+      <div class="navbar-fixed">
+        <nav class="transparent">
+          <div class="container">
+            <div class="nav-wrapper">
+              <a href="#home" class="brand-logo">Autohuolto</a>
+              <a href="#" data-activated="mobile-nav" class="button-collapse">
+                <i class="material-icons">menu</i>
+              </a>
+              <ul class="right hide-on-med-and-down">
+                <li>
+                  <a href="#home">Etusivu</a>
+                </li>
+                <li>
+                  <a href="#service">Palvelut</a>
+                </li>
+                <li>
+                  <a href="#shop">Auto myynti</a>
+                </li>
+                <li>
+                  <a href="#prices">Hinnasto</a>
+                </li>
+                <li>
+                  <a href="contact">Yhteistiedot</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js"></script>
+  <script>
+    $(document).ready(function () {
+      // Init Sidenav
+      $('.button-collapse').sideNav();
+
+      // Init Scrollspy
+      $('.scrollspy').scrollSpy();
+
+      // ScrollFire
+      const options = [
+        {
+          selector: '.main-text', offset: 0, callback: function (el) {
+            Materialize.fadeInImage($(el));
+          }
+        },
+        {
+          selector: '.navbar-fixed', offset: 1500, callback: function () {
+            $('nav').removeClass('transparent');
+            $('nav').addClass('blue-grey darken-3');
+          }
+        }
+      ];
+
+      Materialize.scrollFire(options);
+
+      const position = [42.361145, -71.057083];
+      const centerPosition = [42.377815, -70.981133];
+
+      function showGoogleMaps() {
+        // Map positions
+        const latLng = new google.maps.LatLng(position[0], position[1]);
+        const centerLatLng = new google.maps.LatLng(centerPosition[0], centerPosition[1]);
+
+        // Map options
+        const mapOptions = {
+          zoom: 12,
+          streetViewControl: false,
+          scaleControl: true,
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: centerLatLng
+        }
+
+        // Create map
+        map = new google.maps.Map(document.getElementById('googlemap'), mapOptions);
+
+        // Show Marker
+        marker = new google.maps.Marker({
+          position: latLng,
+          map: map,
+          draggable: false,
+          animation: google.maps.Animation.DROP
+        });
+      }
+
+      // Maps event
+      google.maps.event.addDomListener(window, 'load', showGoogleMaps);
+
+    });
+  </script>
+</body>
+
+</html>
